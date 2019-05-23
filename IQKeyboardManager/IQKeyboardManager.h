@@ -213,6 +213,12 @@ extern NSInteger const kIQPreviousNextButtonToolbarTag;
 - (BOOL)resignFirstResponder;
 
 /**
+ We were facing issue in using Keyboard.dismiss of React native in order to dismiss Keyboard after the user is done typing the required digits in last form field.
+ That's why we added this helper method to resign keyboard.
+ */
+- (void)dismissKeyboard;
+
+/**
  Returns YES if can navigate to previous responder textField/textView, otherwise NO.
  */
 @property (nonatomic, readonly) BOOL canGoPrevious;

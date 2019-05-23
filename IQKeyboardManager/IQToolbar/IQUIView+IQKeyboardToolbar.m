@@ -152,7 +152,7 @@
             resourcesBundle = mainBundle;
         }
         
-        keyboardPreviousiOS10Image = [UIImage imageNamed:@"IQButtonBarArrowUp" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
+        keyboardPreviousiOS10Image = [UIImage imageNamed:@"left" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
         
         //Support for RTL languages like Arabic, Persia etc... (Bug ID: #448)
 #ifdef __IPHONE_11_0
@@ -186,7 +186,7 @@
             resourcesBundle = mainBundle;
         }
         
-        keyboardNextiOS10Image = [UIImage imageNamed:@"IQButtonBarArrowDown" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
+        keyboardNextiOS10Image = [UIImage imageNamed:@"right" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
         
         //Support for RTL languages like Arabic, Persia etc... (Bug ID: #448)
 #ifdef __IPHONE_11_0
@@ -448,42 +448,14 @@
     if(rightBarButtonConfiguration)
     {
         IQBarButtonItem *done = toolbar.doneBarButton;
-        
-        if (done.isSystemItem == NO && (rightBarButtonConfiguration.image || rightBarButtonConfiguration.title))
-        {
-            done.title = rightBarButtonConfiguration.title;
-            done.image = rightBarButtonConfiguration.image;
-            done.target = target;
-            done.action = rightBarButtonConfiguration.action;
-        }
-        else if (rightBarButtonConfiguration.image)
-        {
-            done = [[IQBarButtonItem alloc] initWithImage:rightBarButtonConfiguration.image style:UIBarButtonItemStylePlain target:target action:rightBarButtonConfiguration.action];
-            done.invocation = toolbar.doneBarButton.invocation;
-            done.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
-            done.enabled = toolbar.doneBarButton.enabled;
-            done.tag = toolbar.doneBarButton.tag;
-            toolbar.doneBarButton = done;
-        }
-        else if (rightBarButtonConfiguration.title)
-        {
-            done = [[IQBarButtonItem alloc] initWithTitle:rightBarButtonConfiguration.title style:UIBarButtonItemStylePlain target:target action:rightBarButtonConfiguration.action];
-            done.invocation = toolbar.doneBarButton.invocation;
-            done.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
-            done.enabled = toolbar.doneBarButton.enabled;
-            done.tag = toolbar.doneBarButton.tag;
-            toolbar.doneBarButton = done;
-        }
-        else
-        {
-            done = [[IQBarButtonItem alloc] initWithBarButtonSystemItem:rightBarButtonConfiguration.barButtonSystemItem target:target action:rightBarButtonConfiguration.action];
-            done.invocation = toolbar.doneBarButton.invocation;
-            done.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
-            done.enabled = toolbar.doneBarButton.enabled;
-            done.tag = toolbar.doneBarButton.tag;
-            toolbar.doneBarButton = done;
-        }
-        
+        doneButton = [[IQBarButtonItem alloc] initWithTitle:@"DONE" style:UIBarButtonItemStylePlain target:target action:doneAction];
+        [ doneButton setTitleTextAttributes:@{
+                                              
+                                              NSFontAttributeName: [UIFont fontWithName:@"StyreneBApp-Medium" size:12.0]}
+                                   forState: UIControlStateNormal];
+        doneButton.invocation = toolbar.doneBarButton.invocation;
+        doneButton.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
+        toolbar.doneBarButton = doneButton;
         [items addObject:done];
     }
 
@@ -499,7 +471,7 @@
         switch ([(UITextField*)self keyboardAppearance])
         {
             case UIKeyboardAppearanceDark:  toolbar.barStyle = UIBarStyleBlack;     break;
-            default:                        toolbar.barStyle = UIBarStyleDefault;   break;
+            default:                        toolbar.barStyle = UIBarStyleBlack;   break;
         }
     }
 }

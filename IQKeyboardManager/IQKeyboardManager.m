@@ -1656,6 +1656,12 @@ NSInteger const kIQPreviousNextButtonToolbarTag     =   -1005;
     return YES;
 }
 
+-(void)dismissKeyboard{
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [self.textFieldView resignFirstResponder];
+    }];
+}
+
 /** Resigning textField. */
 - (BOOL)resignFirstResponder
 {
