@@ -91,7 +91,7 @@ extern NSInteger const kIQPreviousNextButtonToolbarTag;
  */
 - (void)reloadLayoutIfNeeded;
 
-/** 
+/**
  Boolean to know if keyboard is showing.
  */
 @property(nonatomic, assign, readonly, getter = isKeyboardShowing) BOOL  keyboardShowing;
@@ -115,9 +115,9 @@ extern NSInteger const kIQPreviousNextButtonToolbarTag;
  IQAutoToolbarBySubviews:   Creates Toolbar according to subview's hirarchy of Textfield's in view.
  IQAutoToolbarByTag:        Creates Toolbar according to tag property of TextField's.
  IQAutoToolbarByPosition:   Creates Toolbar according to the y,x position of textField in it's superview coordinate.
-
+ 
  Default is IQAutoToolbarBySubviews.
-*/
+ */
 @property(nonatomic, assign) IQAutoToolbarManageBehaviour toolbarManageBehaviour;
 
 /**
@@ -344,3 +344,4 @@ extern NSInteger const kIQPreviousNextButtonToolbarTag;
 + (nonnull instancetype)new NS_UNAVAILABLE;
 
 @end
+

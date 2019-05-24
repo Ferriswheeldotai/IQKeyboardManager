@@ -209,15 +209,15 @@
 #ifdef __IPHONE_11_0
     if (@available(iOS 10.0, *))
 #else
-    if (IQ_IS_IOS10_OR_GREATER)
+        if (IQ_IS_IOS10_OR_GREATER)
 #endif
-    {
-        return [UIImage keyboardPreviousiOS10Image];
-    }
-    else
-    {
-        return [UIImage keyboardPreviousiOS9Image];
-    }
+        {
+            return [UIImage keyboardPreviousiOS10Image];
+        }
+        else
+        {
+            return [UIImage keyboardPreviousiOS9Image];
+        }
 }
 
 +(UIImage*)keyboardNextImage
@@ -225,15 +225,15 @@
 #ifdef __IPHONE_11_0
     if (@available(iOS 10.0, *))
 #else
-    if (IQ_IS_IOS10_OR_GREATER)
+        if (IQ_IS_IOS10_OR_GREATER)
 #endif
-    {
-        return [UIImage keyboardNextiOS10Image];
-    }
-    else
-    {
-        return [UIImage keyboardNextiOS9Image];
-    }
+        {
+            return [UIImage keyboardNextiOS10Image];
+        }
+        else
+        {
+            return [UIImage keyboardNextiOS9Image];
+        }
 }
 
 @end
@@ -267,7 +267,7 @@
 -(void)setShouldHideToolbarPlaceholder:(BOOL)shouldHideToolbarPlaceholder
 {
     objc_setAssociatedObject(self, @selector(shouldHideToolbarPlaceholder), @(shouldHideToolbarPlaceholder), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-
+    
     self.keyboardToolbar.titleBarButton.title = self.drawingToolbarPlaceholder;
 }
 
@@ -280,7 +280,7 @@
 -(void)setToolbarPlaceholder:(NSString *)toolbarPlaceholder
 {
     objc_setAssociatedObject(self, @selector(toolbarPlaceholder), toolbarPlaceholder, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-
+    
     self.keyboardToolbar.titleBarButton.title = self.drawingToolbarPlaceholder;
 }
 
@@ -302,7 +302,8 @@
     }
     else if ([self respondsToSelector:@selector(placeholder)])
     {
-        return [(UITextField*)self placeholder];
+        //added by Shikhar;
+        return nil; //[(UITextField*)self placeholder];
     }
     else
     {
@@ -382,7 +383,7 @@
     {
         [items addObject:toolbar.fixedSpaceBarButton];
     }
-
+    
     if(nextBarButtonConfiguration)
     {
         IQBarButtonItem *next = toolbar.nextBarButton;
@@ -448,30 +449,66 @@
     if(rightBarButtonConfiguration)
     {
         IQBarButtonItem *done = toolbar.doneBarButton;
-        doneButton = [[IQBarButtonItem alloc] initWithTitle:@"DONE" style:UIBarButtonItemStylePlain target:target action:doneAction];
-        [ doneButton setTitleTextAttributes:@{
-                                              
-                                              NSFontAttributeName: [UIFont fontWithName:@"StyreneBApp-Medium" size:12.0]}
-                                   forState: UIControlStateNormal];
-        doneButton.invocation = toolbar.doneBarButton.invocation;
-        doneButton.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
-        toolbar.doneBarButton = doneButton;
+        
+        //        if (done.isSystemItem == NO && (rightBarButtonConfiguration.image || rightBarButtonConfiguration.title))
+        //        {
+        //            done.title = rightBarButtonConfiguration.title;
+        //            done.image = rightBarButtonConfiguration.image;
+        //            done.target = target;
+        //            done.action = rightBarButtonConfiguration.action;
+        //        }
+        //        else if (rightBarButtonConfiguration.image)
+        //        {
+        //            done = [[IQBarButtonItem alloc] initWithImage:rightBarButtonConfiguration.image style:UIBarButtonItemStylePlain target:target action:rightBarButtonConfiguration.action];
+        //            done.invocation = toolbar.doneBarButton.invocation;
+        //            done.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
+        //            done.enabled = toolbar.doneBarButton.enabled;
+        //            done.tag = toolbar.doneBarButton.tag;
+        //            toolbar.doneBarButton = done;
+        //        }
+        //        else if (rightBarButtonConfiguration.title)
+        //        {
+        //            done = [[IQBarButtonItem alloc] initWithTitle:rightBarButtonConfiguration.title style:UIBarButtonItemStylePlain target:target action:rightBarButtonConfiguration.action];
+        //            done.invocation = toolbar.doneBarButton.invocation;
+        //            done.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
+        //            done.enabled = toolbar.doneBarButton.enabled;
+        //            done.tag = toolbar.doneBarButton.tag;
+        //            toolbar.doneBarButton = done;
+        //        }
+        //        else
+        //        {
+        //            done = [[IQBarButtonItem alloc] initWithBarButtonSystemItem:rightBarButtonConfiguration.barButtonSystemItem target:target action:rightBarButtonConfiguration.action];
+        //            done.invocation = toolbar.doneBarButton.invocation;
+        //            done.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
+        //            done.enabled = toolbar.doneBarButton.enabled;
+        //            done.tag = toolbar.doneBarButton.tag;
+        //            toolbar.doneBarButton = done;
+        //        }
+        done = [[IQBarButtonItem alloc] initWithTitle:@"DONE" style:UIBarButtonItemStylePlain target:target action:rightBarButtonConfiguration.action];
+        [ done setTitleTextAttributes:@{
+                                        
+                                        NSFontAttributeName: [UIFont fontWithName:@"StyreneBApp-Medium" size:12.0]}
+                             forState: UIControlStateNormal];
+        done.invocation = toolbar.doneBarButton.invocation;
+        done.accessibilityLabel = toolbar.doneBarButton.accessibilityLabel;
+        toolbar.doneBarButton = done;
+        
         [items addObject:done];
     }
-
+    
     //  Adding button to toolBar.
     [toolbar setItems:items];
     
     //  Setting toolbar to keyboard.
     [(UITextField*)self setInputAccessoryView:toolbar];
-
+    
     
     if ([self respondsToSelector:@selector(keyboardAppearance)])
     {
         switch ([(UITextField*)self keyboardAppearance])
         {
             case UIKeyboardAppearanceDark:  toolbar.barStyle = UIBarStyleBlack;     break;
-            default:                        toolbar.barStyle = UIBarStyleBlack;   break;
+            default:                        toolbar.barStyle = UIBarStyleDefault;   break;
         }
     }
 }
@@ -547,7 +584,7 @@
     IQBarButtonItemConfiguration *leftConfiguration = [[IQBarButtonItemConfiguration alloc] initWithTitle:leftTitle action:leftAction];
     
     IQBarButtonItemConfiguration *rightConfiguration = [[IQBarButtonItemConfiguration alloc] initWithTitle:rightTitle action:rightAction];
-
+    
     [self addKeyboardToolbarWithTarget:target titleText:titleText rightBarButtonConfiguration:rightConfiguration previousBarButtonConfiguration:leftConfiguration nextBarButtonConfiguration:nil];
 }
 
@@ -639,3 +676,4 @@
 
 
 @end
+
