@@ -30,6 +30,7 @@
 
 #import <UIKit/UIImage.h>
 #import <UIKit/UILabel.h>
+#import <UIKit/UIScreen.h>
 #import <UIKit/UIAccessibility.h>
 
 @implementation IQBarButtonItemConfiguration
@@ -87,16 +88,12 @@
         keyboardPreviousiOS9Image = [UIImage imageNamed:@"IQButtonBarArrowLeft" inBundle:resourcesBundle compatibleWithTraitCollection:nil];;
         
         //Support for RTL languages like Arabic, Persia etc... (Bug ID: #448)
-#ifdef __IPHONE_11_0
         if (@available(iOS 9.0, *)) {
-#endif
             if ([UIImage instancesRespondToSelector:@selector(imageFlippedForRightToLeftLayoutDirection)])
             {
                 keyboardPreviousiOS9Image = [keyboardPreviousiOS9Image imageFlippedForRightToLeftLayoutDirection];
             }
-#ifdef __IPHONE_11_0
         }
-#endif
     }
     
     return keyboardPreviousiOS9Image;
@@ -121,16 +118,12 @@
         keyboardNextiOS9Image = [UIImage imageNamed:@"IQButtonBarArrowRight" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
         
         //Support for RTL languages like Arabic, Persia etc... (Bug ID: #448)
-#ifdef __IPHONE_11_0
         if (@available(iOS 9.0, *)) {
-#endif
             if ([UIImage instancesRespondToSelector:@selector(imageFlippedForRightToLeftLayoutDirection)])
             {
                 keyboardNextiOS9Image = [keyboardNextiOS9Image imageFlippedForRightToLeftLayoutDirection];
             }
-#ifdef __IPHONE_11_0
         }
-#endif
     }
     
     return keyboardNextiOS9Image;
@@ -155,16 +148,12 @@
         keyboardPreviousiOS10Image = [UIImage imageNamed:@"left" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
         
         //Support for RTL languages like Arabic, Persia etc... (Bug ID: #448)
-#ifdef __IPHONE_11_0
         if (@available(iOS 9.0, *)) {
-#endif
             if ([UIImage instancesRespondToSelector:@selector(imageFlippedForRightToLeftLayoutDirection)])
             {
                 keyboardPreviousiOS10Image = [keyboardPreviousiOS10Image imageFlippedForRightToLeftLayoutDirection];
             }
-#ifdef __IPHONE_11_0
         }
-#endif
     }
     
     return keyboardPreviousiOS10Image;
@@ -189,16 +178,12 @@
         keyboardNextiOS10Image = [UIImage imageNamed:@"right" inBundle:resourcesBundle compatibleWithTraitCollection:nil];
         
         //Support for RTL languages like Arabic, Persia etc... (Bug ID: #448)
-#ifdef __IPHONE_11_0
         if (@available(iOS 9.0, *)) {
-#endif
             if ([UIImage instancesRespondToSelector:@selector(imageFlippedForRightToLeftLayoutDirection)])
             {
                 keyboardNextiOS10Image = [keyboardNextiOS10Image imageFlippedForRightToLeftLayoutDirection];
             }
-#ifdef __IPHONE_11_0
         }
-#endif
     }
     
     return keyboardNextiOS10Image;
@@ -206,34 +191,26 @@
 
 +(UIImage*)keyboardPreviousImage
 {
-#ifdef __IPHONE_11_0
     if (@available(iOS 10.0, *))
-#else
-        if (IQ_IS_IOS10_OR_GREATER)
-#endif
-        {
-            return [UIImage keyboardPreviousiOS10Image];
-        }
-        else
-        {
-            return [UIImage keyboardPreviousiOS9Image];
-        }
+    {
+        return [UIImage keyboardPreviousiOS10Image];
+    }
+    else
+    {
+        return [UIImage keyboardPreviousiOS9Image];
+    }
 }
 
 +(UIImage*)keyboardNextImage
 {
-#ifdef __IPHONE_11_0
     if (@available(iOS 10.0, *))
-#else
-        if (IQ_IS_IOS10_OR_GREATER)
-#endif
-        {
-            return [UIImage keyboardNextiOS10Image];
-        }
-        else
-        {
-            return [UIImage keyboardNextiOS9Image];
-        }
+    {
+        return [UIImage keyboardNextiOS10Image];
+    }
+    else
+    {
+        return [UIImage keyboardNextiOS9Image];
+    }
 }
 
 @end
@@ -255,7 +232,9 @@
         
         if (keyboardToolbar == nil)
         {
-            keyboardToolbar = [[IQToolbar alloc] init];
+            CGRect frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, 44);
+
+            keyboardToolbar = [[IQToolbar alloc] initWithFrame:frame];
             
             objc_setAssociatedObject(self, @selector(keyboardToolbar), keyboardToolbar, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         }
@@ -433,10 +412,8 @@
         
         //Title button
         toolbar.titleBarButton.title = titleText;
-#ifdef __IPHONE_11_0
         if (@available(iOS 11.0, *)) {}
         else
-#endif
         {
             toolbar.titleBarButton.customView.frame = CGRectZero;
         }
