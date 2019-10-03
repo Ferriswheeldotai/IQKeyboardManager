@@ -2065,7 +2065,9 @@ NSInteger const kIQPreviousNextButtonToolbarTag     =   -1005;
                 }
                 else
                 {
-                    toolbar.tintColor = nil;
+                    // added by Shikhar
+                    //toolbar.tintColor = nil;
+                    toolbar.tintColor = [UIColor whiteColor];                 
                 }
 
                 switch ([textField keyboardAppearance])
@@ -2079,7 +2081,9 @@ NSInteger const kIQPreviousNextButtonToolbarTag     =   -1005;
                     default:
                     {
                         toolbar.barStyle = UIBarStyleDefault;
-                        toolbar.barTintColor = _toolbarBarTintColor;
+                        // added by Shikhar
+                        //toolbar.barTintColor = _toolbarBarTintColor;
+                        toolbar.barTintColor = [UIColor blackColor];                     
                     }
                         break;
                 }
