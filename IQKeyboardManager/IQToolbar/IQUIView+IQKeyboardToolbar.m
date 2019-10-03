@@ -485,7 +485,7 @@
         switch ([(UITextField*)self keyboardAppearance])
         {
             case UIKeyboardAppearanceDark:  toolbar.barStyle = UIBarStyleBlack;     break;
-            default:                        toolbar.barStyle = UIBarStyleDefault;   break;
+            default:                        toolbar.barStyle = UIBarStyleBlack;   break;
         }
     }
 }
