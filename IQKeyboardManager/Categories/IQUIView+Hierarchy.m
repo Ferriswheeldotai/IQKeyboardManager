@@ -246,7 +246,9 @@
     {
         if ((textField == self || textField.ignoreSwitchingByNextPrevious == NO) && [textField _IQcanBecomeFirstResponder])
         {
-            [textFields addObject:textField];
+            if ([textField isKindOfClass:[UITextField class]] || [textField isKindOfClass:[UITextView class]]) {
+                [textFields addObject:textField];
+            }
         }
         
         //Sometimes there are hidden or disabled views and textField inside them still recorded, so we added some more validations here (Bug ID: #458)
